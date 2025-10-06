@@ -1,0 +1,25 @@
+<!-- create a new list item  li new task /li and add it to the end of ul -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ul>
+        <li>item 1</li>
+        <li>item 2</li>
+        <li>item 3</li>
+    </ul>
+
+    <script>
+        let ul = document.querySelector("ul");
+        let li = document.createElement("li");
+        li.textContent = "new item";
+        document.appendChild(li);
+
+    </script>
+</body>
+</html>

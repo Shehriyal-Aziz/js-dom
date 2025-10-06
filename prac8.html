@@ -1,0 +1,23 @@
+<!-- select all li elements and print their text using loop -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ul>
+        <li>apple</li>
+        <li>apple 2</li>
+        <li>apple 3</li>
+    </ul>
+
+
+    <script>
+        let li = document.querySelectorAll("li");
+        li.forEach(val => console.log(val.textContent));
+    </script>
+</body>
+</html>

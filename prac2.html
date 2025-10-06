@@ -1,0 +1,25 @@
+<!-- crreate img element and add placeholder sourece and add it at top of div -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+  
+        <h1>heading</h1>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis, velit!</p>
+    </div>
+
+    <script>
+        let img = document.createElement("img");
+        img.setAttribute("src","https://images.unsplash.com/photo-1759588032622-1388cf9505ad?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw1fHx8ZW58MHx8fHx8");
+        div = document.querySelector("div");
+        div.prepend(img);
+    </script>
+</body>
+</html>
+
