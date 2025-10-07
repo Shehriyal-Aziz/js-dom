@@ -37,3 +37,9 @@
 // }
 
 // inp.addEventListener("input", abc);
+
+
+ h1 = document.querySelector("h1");
+    sel = document.querySelector("select");
+
+    

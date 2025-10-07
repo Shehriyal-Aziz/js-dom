@@ -1,0 +1,149 @@
+<!-- ek form banao reload/submit hone se roko then jo bhi form mn likho wo ek card mn show ho jo dinamicaly js se a rha ho -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            height: 100%;
+            width: 100%;
+
+        }
+
+        #main {
+            height: 100%;
+            width: 100%;
+            background-color: #222;
+            padding: 40px;
+        }
+
+        .card {
+            background: #12141c;
+            border-radius: 1rem;
+            padding: 2rem;
+            width: 250px;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.1);
+        }
+
+        .profile {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 1rem;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid #2563eb;
+        }
+
+        .profile img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card h3 {
+            margin: 0.5rem 0 0;
+            font-size: 1.4rem;
+        }
+
+        .card h5 {
+            margin: 0.2rem 0 1rem;
+            font-weight: 400;
+            color: #9ca3af;
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            color: #d1d5db;
+            line-height: 1.4;
+        }
+
+        input {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main">
+
+        <form id="form" action="">
+            <input type="text" placeholder="profile">
+            <input type="text" placeholder="name">
+            <input type="text" placeholder="occupation">
+            <input type="text" placeholder="desc">
+            <input type="submit" placeholder="submit">
+
+        </form>
+
+        <!-- <div class="card">
+            <div class="profile">
+                <img src="https://media.istockphoto.com/id/2164433336/photo/confident-man-looking-up-against-black-background.jpg?s=1024x1024&w=is&k=20&c=Fi-TtUnWp7ADJvKX_4CXjsV11lCdROkT7vsHJ27MgJc=" alt="">
+            </div>
+            <h3>sherry</h3>
+            <h5>coder</h5>
+            <p>about me</p>
+        </div> -->
+    </div>
+
+    <script>
+        let form = document.querySelector("#form");
+        let inputs = document.querySelectorAll("input");
+        let main = document.querySelector("#main");
+
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            let card = document.createElement("div");
+            card.classList.add("card");
+
+            let profile = document.createElement("div");
+            profile.classList.add("profile");
+
+            let img = document.createElement("img");
+            img.setAttribute("src", inputs[0].value);
+
+            let h3 = document.createElement("h3");
+            h3.textContent = inputs[1].value;
+
+            let h5 = document.createElement("h5");
+            h5.textContent = inputs[2].value;
+
+            let p = document.createElement("p");
+            p.textContent = inputs[3].value;
+
+            main.appendChild(card);
+            profile.appendChild(img);
+            card.appendChild(profile);
+            card.appendChild(h3);
+            card.appendChild(h5);
+            card.appendChild(p);
+
+            inputs.forEach(function (inp) {
+                if (inp.type !== "submit") {
+                    inp.value = "";
+                }
+            } )
+        });
+
+    </script>
+</body>
+
+</html>

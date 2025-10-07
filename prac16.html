@@ -1,0 +1,78 @@
+<!--
+1. ek input for upload bano aur usy hide krdo then ek btn banao style karo as it is upload then js likho k jab ispr clcik ho hamara input(jo hide h) wo open ho 
+2. jab file select karo to btn mn jo nam likha h wo change ho jai file k nam se
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            height: 100%;
+            width: 100%;
+
+        }
+
+        #main {
+            height: 100%;
+            width: 100%;
+            background-color: #222;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #inp {
+            display: none;
+        }
+
+        #btn {
+            padding: 12px min(32px);
+            font-size: 20px;
+            background: #0fc09a;
+            font-family: "gillroy";
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main">
+        <input id="inp" type="file">
+        <button id="btn" type="submit">upload</button>
+    </div>
+
+    <script>
+        let inp = document.querySelector("#inp");
+        let btn = document.querySelector("#btn");
+        btn.addEventListener("click", function () {
+            inp.click();
+        })
+
+        inp.addEventListener("change", function (delt) {
+            // console.log(delt.target.files[0].name);
+            let file = delt.target.files[0];
+            if (file) {
+                btn.textContent = file.name;
+            }
+
+        });
+
+    </script>
+
+
+
+</body>
+
+</html>

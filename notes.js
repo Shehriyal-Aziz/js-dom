@@ -135,7 +135,7 @@ element.removeEventListener("event ka nam","funtion ka nam")
 // types of actions/events
 // click 
 // dblclick
-// input 
-// change
+// input: input feild mn kuch bhi action ho(value dalna mitana ya space) to fuction run karo
+// change : kuch bhi input select mn change ya text area mnchange ho tab func run karo
 // tum memorise nhi kr sakte bohot hn just as gpt and use 
 
