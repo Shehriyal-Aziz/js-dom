@@ -1,3 +1,5 @@
+// SECTION 1
+
 // we will learn dom manuplation (js ko use krke html ko change krna)
 
 const { createElement } = require("react");
@@ -108,4 +110,32 @@ h1.classList.add("matha");
 h1.classList.toggle("head");
 
 
+
+// SECTION 2
+
+// events and events listner
+
+// event : koi bhi action on website
+
+// event listner : us event ko listen krne wala mean hamesha search mn rehta h k wo event(hover) perform ho to mn apna kam karu jo bola gya h (in func)
+
+// structure
+element.addEventListener("event name","function(jo reaction hoga")
+p.addEventListener("click",()=>{p.style.color = "green"});
+
+
+// how much can we do with EventListener 
+
+// addEventListener
+element.addEventListener("event ka nam","function ka nam") // perfect way
+// removeEventListener()
+element.removeEventListener("event ka nam","funtion ka nam") 
+
+
+// types of actions/events
+// click 
+// dblclick
+// input 
+// change
+// tum memorise nhi kr sakte bohot hn just as gpt and use 
 
