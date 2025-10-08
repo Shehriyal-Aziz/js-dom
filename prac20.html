@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Keyup Form Validation</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #111;
+      color: #fff;
+      padding: 2rem;
+    }
+
+    input {
+      padding: 10px;
+      width: 250px;
+      border: 2px solid #444;
+      border-radius: 5px;
+      outline: none;
+      background: #222;
+      color: white;
+    }
+
+    input.valid {
+      border-color: #22c55e; /* green */
+    }
+
+    input.invalid {
+      border-color: #ef4444; /* red */
+    }
+
+    small {
+      color: #ef4444;
+      display: block;
+      margin-top: 5px;
+      visibility: hidden;
+    }
+
+    small.active {
+      visibility: visible;
+    }
+  </style>
+</head>
+<body>
+  <h2>Email Validation Example</h2>
+  <input type="text" id="email" placeholder="Enter your email" />
+  <small id="error">Please enter a valid email address</small>
+
+  <script>
+    const emailInput = document.getElementById("email");
+    const errorMsg = document.getElementById("error");
+
+    emailInput.addEventListener("keyup", () => {
+      const value = emailInput.value.trim();
+      const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // simple email regex
+
+      if (pattern.test(value)) {
+        emailInput.classList.add("valid");
+        emailInput.classList.remove("invalid");
+        errorMsg.classList.remove("active");
+      } else {
+        emailInput.classList.add("invalid");
+        emailInput.classList.remove("valid");
+        errorMsg.classList.add("active");
+      }
+    });
+  </script>
+</body>
+</html>

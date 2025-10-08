@@ -1,0 +1,78 @@
+<!-- live charactor counter -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    input {
+        margin-left: 10px;
+        margin-top: 20px;
+    }
+
+    h3 {
+        margin-top: 5px;
+        margin-left: 10px;
+    }
+
+    h2 {
+        margin-bottom: 0px;
+    }
+</style>
+
+<body>
+    <h2>live charactor counter</h2>
+    <input type="text" placeholder="type any thing">
+    <h3>charactors: <span>0</span></h3>
+    <script>
+        let inp = document.querySelector("input");
+        let span = document.querySelector("span");
+
+        inp.addEventListener("input", function () {
+            let char = inp.value.length;
+            span.textContent = char;
+        })
+
+    </script>
+
+
+
+    <br><br>
+    <hr><br>
+
+
+
+    <h2>remaining charactor counter</h2>
+    <input class="input" type="text" placeholder="type any thing">
+    <h3>charactors left: <span class="span">20</span></h3>
+
+    <script>
+        let inptwo = document.querySelector(".input");
+        let spantwo = document.querySelector(".span");
+
+        inptwo.addEventListener("input", function () {
+            let remain = 20 - inptwo.value.length;
+            spantwo.textContent = remain;
+
+            if (remain < 0) {
+                spantwo.style.color = "red"
+            } else {
+                spantwo.style.color = "black"
+            }
+        });
+    </script>
+
+
+</body>
+
+</html>
+
+
+
+  // (optional challenge)
+        // - change input border color to red/green based on valid or invalid
+        // - disable button until all fields are valid

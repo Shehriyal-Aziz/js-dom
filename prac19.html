@@ -1,0 +1,55 @@
+<!-- dic ko apne mouse k sath move karao -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body,
+    html {
+      height: 100%;
+      width: 100%;
+    }
+
+    body{
+      overflow: hidden;
+      transition: cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    #main {
+      height: 400px;
+      width: 400px;
+      background-color: #222;
+      position: absolute;      
+    }
+  </style>
+</head>
+
+<body>
+  <div id="main">
+
+  </div>
+
+  <script>
+    let main = document.querySelector("#main");
+
+   window.addEventListener("mousemove", function (val) {
+  const x = val.clientX - 200; 
+  const y = val.clientY - 200; 
+  main.style.left = x + "px";
+  main.style.top = y + "px";
+});
+
+  </script>
+</body>
+
+</html>

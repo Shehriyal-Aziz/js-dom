@@ -1,0 +1,52 @@
+<!-- hover effect using js eventlistners -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body,
+    html {
+      height: 100%;
+      width: 100%;
+    }
+
+    #main {
+      height: 400px;
+      width: 400px;
+      background-color: #222;
+      margin: 40px;
+        transition: background-color 0.2s ease-in-out;
+      
+    }
+  </style>
+</head>
+
+<body>
+  <div id="main">
+ 
+  </div>
+
+  <script>
+    let main = document.querySelector("#main");
+
+    main.addEventListener("mouseover",function(val){
+        console.log(val)//isko use krke tum object mn say key find kr sakte ho yad krne ki zarorrat nhi
+        val.target.style.background = "yellow";
+
+    });main.addEventListener("mouseout",function(val){
+        console.log(val)
+        val.target.style.background = "#222";
+    });
+  </script>
+</body>
+
+</html>

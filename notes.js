@@ -137,5 +137,93 @@ element.removeEventListener("event ka nam","funtion ka nam")
 // dblclick
 // input: input feild mn kuch bhi action ho(value dalna mitana ya space) to fuction run karo
 // change : kuch bhi input select mn change ya text area mnchange ho tab func run karo
-// tum memorise nhi kr sakte bohot hn just as gpt and use 
+// submit :  from k submit pr func run hoga. mainly use to prevent submision of form or for validation
+// keydown: use when to run func on pressing any key on keyoard (jab press down hoti h key tab hi run ho jata h aur agr key hold ki to multiple times run hoga)
+// keyup: jab key press karo nothing happen thast moment jab release karo ge daba kr tb aur jab upr aai gi tab func run hoga. use case form validating
+// mouseover: matlab kisi obj k uper jis pr listner lagaya h, mouse uper aai ga func run karo
+// mouseout: matlab kisi obj k uper jis pr listner lagaya h, mouse bhair jaai ga func run karo
+// mousemove: jab mouse move ho to func runn ho
+// tum memorise nhi kr sakte bohot hn just ask gpt and use 
 
+
+
+// event object 
+
+// jab hum event listner banate hn to as a result wo ek vent object banata h1( object that store topns of info)  hum ise parameter mn store krlete hn aur majority ise e evt ya events k nam se banate hn 
+
+// jesa bola ye ek object hota h aur tons of info store krta h to us mn se kuch imp are
+
+// type: tell what was type of event listner (types are above written)
+// target: batata h k function jo run hua to usk effect kis pr hua ya the element that trigger the event
+// preventDefualt: ye ek method h jo subit event k sath use hota h help krta h from ko og nature (submit pr reload) ko rokne mn
+
+
+// event bubling
+
+// agr element pr event litner nhi laga hua to parent ko check kare ga and agr parent ko bh na laga hua hot o uske parentgoes till reach the last parent (html tag) used when aapko ek hi function ek parent k bohot sare child pr krwana ho to bajai applying addeventlistner to each child ap parent pr lagate ho so jab bache pr event perform ho(like click) to uspr to func run k liye h hi nhi to wo parent pr check kare ga aur agr parent pr lagaya hoga event listner(click) to wo func child pr run hoga jis pr event perform (click) hua   
+
+// this is why bubbling is so useful —
+// you can attach one listener to a parent, and handle clicks for all its children inside the same function.
+
+// instead of doing this
+child1.addEventListener("click", fn);
+child2.addEventListener("click", fn);
+child3.addEventListener("click", fn);
+
+// you can do this  
+parent.addEventListener("click", fn);
+
+// this code: jab child pr clcik hoga to listner parent pr hoga pr func run child pr hoga jo click hua
+
+
+// flow of event and its phase
+
+// jab bhi click krte ho ya ya koi event raise krte ho to aapka jo event flow do phase mn hota h
+
+// phase1(capture phase): event top se neeche ki taraf aayega 
+// phase2(bubling phase): eventraised element se top ki taraf jaaye ga
+
+// by default capture phase off hota h isliye hum sirf phase two ko hote huye dekhte hn
+
+// to capture phase on krne k liye event k func k end mn ")" se pehle ",true" likh do 
+// this way capure phase on and bubling off
+
+// example
+// agr aapke pass a, b, c div hn usky andar btn to jab btn pr click karo ge to direct bubling phase se start hoga aur jo jo event func lagai gai thy div and btn pr wo bs ek event listner(click) se run honge 
+// but let assume apne b div ka capture phase on kr diya(bubling phase auto off ho jai ga) to pehele phase 1 (capture) run hoga means top se neeche so hamare pass top pr a div h to check kare ga js k capturing phase h ya nhi agr nhi to ignore then move to b div check capturing phase if active run it func then to c and then btn then phase 2 (bubling start) jo k raise element se top ti taraf means pehele btn (jo clcik kiya hamne vent raised element) check hoga agr capturing on h to ignore kare ga aur agr off h to run same for btn to c to b to a
+// code look
+
+let a = document.querySelector(".a");
+let b = document.querySelector(".b");
+let c = document.querySelector(".c");
+let btn = document.querySelector("button");
+
+btn.addEventListener("clcik",function(){
+    console.log("button clicked");
+});
+
+c.addEventListener("clcik",function(){
+    console.log("c clicked");
+});
+
+b.addEventListener("clcik",function(){
+    console.log("b clicked");
+},true);
+
+a.addEventListener("clcik",function(){
+    console.log("a clicked");
+},true);
+
+// console pr result will be
+// a clicked 
+// b clicked
+// button clicked
+// c clicked
+
+
+
+
+
+//  FORM AND VALIDATIOON
+
+// notes mn batane ko kuch nhi js look in prac24.html and you will get to know 

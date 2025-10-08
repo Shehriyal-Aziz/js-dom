@@ -1,0 +1,291 @@
+<!-- create proper form apply css and validate with js -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validation Practice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0B0D17;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .form-container {
+            background: #12141C;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 320px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #333;
+            background: #1A1C24;
+            color: white;
+            outline: none;
+            font-size: 0.9rem;
+        }
+
+        input:focus {
+            border-color: #2563eb;
+        }
+
+        .error {
+            color: red;
+
+        }
+
+        #emailError {
+            display: none;
+        }
+
+        #nameError {
+            display: none;
+        }
+
+        #passError {
+            display: none;
+        }
+
+        #result {
+            margin-top: 20px;
+            color: green;
+            text-align: center;
+            font-weight: bold;
+            font-size: 14px;
+            display: none;
+        }
+
+
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background: #2563eb;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #1e4ed8;
+        }
+
+        #strength-bar {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background-color: #222;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+
+        #bar-fill {
+            width: 0%;
+            height: 100%;
+            background-color: red;
+            transition: width 0.3s ease, background-color 0.3s ease;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="form-container">
+        <h2>Sign Up</h2>
+        <form autocomplete="off" id="form">
+            <label for="name">UserName</label>
+            <input type="text" id="name" placeholder="Enter username">
+            <div id="hide">
+
+                <small class="error" id="nameError">name must be at least 6 letter</small>
+                <br>
+            </div>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="Enter email">
+            <div id="hide">
+                <small class="error" id="emailError">Enter a valid email</small>
+                <br>
+            </div>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter password">
+            <div id="hide">
+                <small class="error" id="passError">Password must be at least 6 characters, special, capital and a
+                    digit</small>
+                <br>
+            </div>
+            <div id="strength-bar">
+                <div id="bar-fill"></div>
+            </div>
+
+            <button type="submit">Register</button>
+        </form>
+        <div id="result">
+
+        </div>
+    </div>
+
+    <script>
+
+        let name = document.querySelector("#name")
+        let email = document.querySelector("#email");
+        let password = document.querySelector("#password");
+        let form = document.querySelector("#form");
+
+        let nameRegex = /^[A-Za-z\s]{6,20}$/;
+        let emailRegex = /^[^\s@]+@[^\s@]+\.[a-z]{2,3}$/i;
+        let passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$/;
+
+        name.addEventListener("input", () => {
+            if (nameRegex.test(name.value.trim())) {
+                document.querySelector("#nameError").style.display = "none";
+            }
+        });
+
+        email.addEventListener("input", () => {
+            if (emailRegex.test(email.value.trim())) {
+                document.querySelector("#emailError").style.display = "none";
+            }
+        });
+
+        password.addEventListener("input", () => {
+            if (passwordRegex.test(password.value.trim())) {
+                document.querySelector("#passError").style.display = "none";
+            }
+        });
+
+        // Password strength bar
+        password.addEventListener("input", () => {
+            const val = password.value.trim();
+            const bar = document.querySelector("#bar-fill");
+
+            if (val.length === 0) {
+                bar.style.width = "0%";
+                return;
+            }
+
+            let strength = 0;
+
+            if (val.match(/[a-z]/)) strength++;
+            if (val.match(/[A-Z]/)) strength++;
+            if (val.match(/\d/)) strength++;
+            if (val.match(/[@$!%*?&]/)) strength++;
+            if (val.length >= 8) strength++;
+
+            // Change bar width and color based on strength
+            switch (strength) {
+                case 0:
+                case 1:
+                    bar.style.width = "20%";
+                    bar.style.backgroundColor = "red";
+                    break;
+                case 2:
+                    bar.style.width = "40%";
+                    bar.style.backgroundColor = "orange";
+                    break;
+                case 3:
+                    bar.style.width = "60%";
+                    bar.style.backgroundColor = "yellow";
+                    break;
+                case 4:
+                    bar.style.width = "80%";
+                    bar.style.backgroundColor = "#9acd32"; // yellowgreen
+                    break;
+                case 5:
+                    bar.style.width = "100%";
+                    bar.style.backgroundColor = "green";
+                    break;
+            }
+        });
+
+
+
+
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            document.querySelector("#result").style.display = "none";
+            document.querySelector("#result").textContent = "";
+            document.querySelector("#name").textContent = "";
+            document.querySelector("#email").textContent = "";
+            document.querySelector("#password").textContent = "";
+
+
+
+
+            let nameVal = name.value.trim();
+            let emailVal = email.value.trim();
+            let passVal = password.value.trim();
+
+
+            let nameans = nameRegex.test(nameVal);
+            let emailans = emailRegex.test(emailVal);
+            let passans = passwordRegex.test(passVal);
+
+            let isValid = true;
+
+            if (!nameans) {
+                document.querySelector("#nameError").style.display = "block";
+                isValid = false;
+            } else {
+                document.querySelector("#nameError").style.display = "none";
+            }
+            if (!emailans) {
+                document.querySelector("#emailError").style.display = "block";
+                isValid = false;
+            } else {
+                document.querySelector("#emailError").style.display = "none";
+            }
+            if (!passans) {
+                document.querySelector("#passError").style.display = "block";
+                isValid = false;
+            } else {
+                document.querySelector("#passError").style.display = "none";
+            }
+
+
+
+
+            if (isValid) {
+                document.querySelector("#result").textContent = "Thank you";
+                document.querySelector("#result").style.display = "block";
+                form.reset();
+            }
+        });
+
+
+
+    </script>
+
+</body>
+
+</html>
