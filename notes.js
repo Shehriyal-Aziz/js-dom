@@ -227,3 +227,31 @@ a.addEventListener("clcik",function(){
 //  FORM AND VALIDATIOON
 
 // notes mn batane ko kuch nhi js look in prac24.html and you will get to know 
+
+
+
+
+
+// SECTION 3
+
+// settimout
+    // structure 
+         setTimeout(function(){},1000);
+        // setTimeout function(){code jo x time k bad run hoga}, time in ms);
+    // example
+        // print hello in console after 10s 
+        setTimeout(function(){
+            console.log("hello");
+        },10000);
+
+
+// set intervel
+        // structure
+            // same structure 
+            setInterval(function(){},10000);
+        // diffrence 
+        // timout sirf ek bar run hoga x time k bad 
+        // interval x time k gap mn run hoga  
+
+
+

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auto Hide Alert</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f1724;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: white;
+    }
+
+    .alert {
+      background: linear-gradient(135deg, rgba(99,102,241,0.9), rgba(14,165,233,0.9));
+      padding: 14px 24px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      opacity: 1;
+      transition: opacity 0.6s ease, transform 0.6s ease;
+      transform: translateY(0);
+      position: fixed;
+      bottom: 20px;
+      right: -60px;
+      transform: translateX(-50%);
+    }
+
+    .hide {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+
+    button {
+      padding: 10px 18px;
+      border: none;
+      border-radius: 6px;
+      background: rgba(99,102,241,0.95);
+      color: white;
+      cursor: pointer;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <button id="showAlert">Show Alert</button>
+  <div class="alert" id="alertBox" style="display:none;">
+    This is an alert message!
+  </div>
+
+  <script>
+
+    const alertBox = document.getElementById('alertBox');
+    const showAlert = document.getElementById('showAlert');
+
+    showAlert.addEventListener("click",function(){
+        alertBox.style.display = "block";
+        alertBox.classList.remove('hide');
+
+        setTimeout(()=>{
+        alertBox.classList.add('hide');
+        setTimeout(()=>{
+            alertBox.style.display = "none";
+        },600)
+        },2000)
+    })
+  </script>
+</body>
+</html>
