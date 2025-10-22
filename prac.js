@@ -39,7 +39,7 @@
 // inp.addEventListener("input", abc);
 
 
- h1 = document.querySelector("h1");
-    sel = document.querySelector("select");
+//  h1 = document.querySelector("h1");
+//     sel = document.querySelector("select");
 
-    
+localStorage.setItem("name","harsh");
