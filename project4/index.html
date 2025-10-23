@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Card with Form</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="left-controls">
+            <button class="control-btn" onclick="openModal()">+</button>
+            <button class="control-btn">↑</button>
+            <button class="control-btn">↓</button>
+        </div>
+
+
+
+
+    </div>
+
+    <!-- Modal Form -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModalOnOverlay(event)">
+        <div class="form-container" onclick="event.stopPropagation()">
+            <div class="form-header">
+                <h2 class="form-title">New Call</h2>
+                <button class="close-btn" onclick="closeModal()">×</button>
+            </div>
+
+            <form id="newCallForm" onsubmit="handleSubmit(event)">
+                <div class="form-content">
+                    <div class="form-group">
+                        <label class="form-label">Image URL</label>
+                        <input type="text" class="form-input" name="imageUrl" placeholder="Enter image URL">
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-input" name="fullName" placeholder="Enter full name" required>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label class="form-label">Home Town</label>
+                        <input type="text" class="form-input" name="homeTown" placeholder="Enter home town">
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="form-label">Purpose</label>
+                        <input type="text" class="form-input" name="purpose" placeholder="Enter purpose">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label class="form-label">Category</label>
+                        <div class="category-section">
+                            <div class="radio-option urgent">
+                                <input type="radio" id="urgent" name="category" value="urgent">
+                                <label for="urgent" class="radio-label">Urgent</label>
+                            </div>
+                            <div class="radio-option important">
+                                <input type="radio" id="important" name="category" value="important">
+                                <label for="important" class="radio-label">Important</label>
+                            </div>
+                            <div class="radio-option emergency">
+                                <input type="radio" id="emergency" name="category" value="emergency">
+                                <label for="emergency" class="radio-label">Emergency</label>
+                            </div>
+                            <div class="radio-option no-rush">
+                                <input type="radio" id="noRush" name="category" value="noRush">
+                                <label for="noRush" class="radio-label">No Rush</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button type="submit" class="submit-btn btn-create">Create Now</button>
+                        <button type="button" class="submit-btn btn-cancel" onclick="closeModal()">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Card Manager</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            align-items: flex-start;
+            gap: 30px;
+            position: relative;
+            min-height: 600px;
+        }
+
+        .left-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 200;
+        }
+
+        .control-btn {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: none;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            font-size: 24px;
+            color: #333;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .control-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+            background: white;
+        }
+
+        .control-btn:active {
+            transform: translateY(0);
+        }
+
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+            width: 360px;
+            position: absolute;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            left: 100px;
+        }
+
+        /* Card stacking - only show top 3 */
+        .card:nth-child(2) {
+            transform: translateY(0) scale(1);
+            z-index: 103;
+            opacity: 1;
+        }
+
+        .card:nth-child(3) {
+            transform: translateY(15px) scale(0.96);
+            z-index: 102;
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .card:nth-child(4) {
+            transform: translateY(30px) scale(0.92);
+            z-index: 101;
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        .card:nth-child(n+5) {
+            display: none;
+        }
+
+        .delete-card-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #ff5252;
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+            opacity: 0.8;
+        }
+
+        .delete-card-btn:hover {
+            background: #ff3838;
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .profile-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-size: cover;
+            background-position: center;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+        }
+
+        .name {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .details {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .details:last-child {
+            border-bottom: none;
+        }
+
+        .label {
+            color: #888;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .value {
+            color: #333;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .category-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            color: white;
+            margin-top: 16px;
+            text-transform: capitalize;
+        }
+
+        .category-badge.urgent { background: linear-gradient(135deg, #b565d8 0%, #9b4cc9 100%); }
+        .category-badge.important { background: linear-gradient(135deg, #ff9f43 0%, #ff8c2f 100%); }
+        .category-badge.emergency { background: linear-gradient(135deg, #ff5252 0%, #ff3838 100%); }
+        .category-badge.noRush { background: linear-gradient(135deg, #26c6da 0%, #1fa8c0 100%); }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 32px;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+
+        .btn-call {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-call:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-message {
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .btn-message:hover {
+            background: #e8e8e8;
+            transform: translateY(-2px);
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 24px;
+            padding: 48px;
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .form-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .form-title {
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .close-btn {
+            background: #f5f5f5;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: #e8e8e8;
+            transform: rotate(90deg);
+        }
+
+        .form-content {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .form-input {
+            padding: 14px 16px;
+            border: 2px solid #e8e8e8;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .category-section {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .radio-option {
+            position: relative;
+        }
+
+        .radio-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            border: 2px solid #e8e8e8;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 600;
+            gap: 8px;
+        }
+
+        .radio-option input[type="radio"]:checked + .radio-label {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .radio-option.urgent input[type="radio"]:checked + .radio-label {
+            border-color: #b565d8;
+            background: rgba(181, 101, 216, 0.1);
+            color: #b565d8;
+        }
+
+        .radio-option.important input[type="radio"]:checked + .radio-label {
+            border-color: #ff9f43;
+            background: rgba(255, 159, 67, 0.1);
+            color: #ff9f43;
+        }
+
+        .radio-option.emergency input[type="radio"]:checked + .radio-label {
+            border-color: #ff5252;
+            background: rgba(255, 82, 82, 0.1);
+            color: #ff5252;
+        }
+
+        .radio-option.no-rush input[type="radio"]:checked + .radio-label {
+            border-color: #26c6da;
+            background: rgba(38, 198, 218, 0.1);
+            color: #26c6da;
+        }
+
+        .action-buttons {
+            grid-column: 1 / -1;
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .submit-btn {
+            flex: 1;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-create {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-create:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-cancel {
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .btn-cancel:hover {
+            background: #e8e8e8;
+            transform: translateY(-2px);
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            z-index: 10000;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .notification.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .form-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .card {
+                width: 320px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-controls">
+            <button class="control-btn" onclick="openModal()">+</button>
+            <button class="control-btn" onclick="navigateCards('up')">↑</button>
+            <button class="control-btn" onclick="navigateCards('down')">↓</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModalOnOverlay(event)">
+        <div class="form-container" onclick="event.stopPropagation()">
+            <div class="form-header">
+                <h2 class="form-title">New Contact</h2>
+                <button class="close-btn" onclick="closeModal()">×</button>
+            </div>
+
+            <form id="newCallForm" onsubmit="handleSubmit(event)">
+                <div class="form-content">
+                    <div class="form-group">
+                        <label class="form-label">Image URL</label>
+                        <input type="text" class="form-input" name="imageUrl" placeholder="Enter image URL">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-input" name="fullName" placeholder="Enter full name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Home Town</label>
+                        <input type="text" class="form-input" name="homeTown" placeholder="Enter home town">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Purpose</label>
+                        <input type="text" class="form-input" name="purpose" placeholder="Enter purpose">
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label class="form-label">Category</label>
+                        <div class="category-section">
+                            <div class="radio-option urgent">
+                                <input type="radio" id="urgent" name="category" value="urgent">
+                                <label for="urgent" class="radio-label">Urgent</label>
+                            </div>
+                            <div class="radio-option important">
+                                <input type="radio" id="important" name="category" value="important">
+                                <label for="important" class="radio-label">Important</label>
+                            </div>
+                            <div class="radio-option emergency">
+                                <input type="radio" id="emergency" name="category" value="emergency">
+                                <label for="emergency" class="radio-label">Emergency</label>
+                            </div>
+                            <div class="radio-option no-rush">
+                                <input type="radio" id="noRush" name="category" value="noRush">
+                                <label for="noRush" class="radio-label">No Rush</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button type="submit" class="submit-btn btn-create">Create Now</button>
+                        <button type="button" class="submit-btn btn-cancel" onclick="closeModal()">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="notification" id="notification"></div>
+
+    <script>
+        let cards = [];
+
+        function openModal() {
+            document.getElementById('modalOverlay').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('active');
+            document.getElementById('newCallForm').reset();
+        }
+
+        function closeModalOnOverlay(event) {
+            if (event.target.id === 'modalOverlay') {
+                closeModal();
+            }
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            
+            const card = {
+                imageUrl: formData.get('imageUrl') || '',
+                fullName: formData.get('fullName'),
+                homeTown: formData.get('homeTown') || 'Not specified',
+                purpose: formData.get('purpose') || 'Not specified',
+                category: formData.get('category') || 'noRush'
+            };
+
+            cards.push(card);
+            renderCards();
+            closeModal();
+            showNotification('Contact created successfully!');
+        }
+
+        function renderCards() {
+            const container = document.querySelector('.container');
+            const existingCards = container.querySelectorAll('.card');
+            existingCards.forEach(card => card.remove());
+
+            cards.forEach((card, index) => {
+                const cardElement = createCardElement(card, index);
+                container.appendChild(cardElement);
+            });
+        }
+
+        function createCardElement(card, index) {
+            const cardDiv = document.createElement('div');
+            cardDiv.className = 'card';
+            
+            const avatarStyle = card.imageUrl ? `background-image: url('${card.imageUrl}');` : '';
+            
+            cardDiv.innerHTML = `
+                <button class="delete-card-btn" onclick="deleteCard(${index})">×</button>
+                <div class="profile-section">
+                    <div class="avatar" style="${avatarStyle}"></div>
+                    <div class="name">${card.fullName}</div>
+                    <div class="details">
+                        <span class="label">Home Town</span>
+                        <span class="value">${card.homeTown}</span>
+                    </div>
+                    <div class="details">
+                        <span class="label">Purpose</span>
+                        <span class="value">${card.purpose}</span>
+                    </div>
+                    <div class="category-badge ${card.category}">${card.category.replace(/([A-Z])/g, ' $1').trim()}</div>
+                </div>
+                <div class="actions">
+                    <button class="btn btn-call">Call</button>
+                    <button class="btn btn-message">Message</button>
+                </div>
+            `;
+            
+            return cardDiv;
+        }
+
+        function deleteCard(index) {
+            cards.splice(index, 1);
+            renderCards();
+            showNotification('Contact deleted');
+        }
+
+        function navigateCards(direction) {
+            if (cards.length === 0) return;
+            
+            if (direction === 'up') {
+                const firstCard = cards.shift();
+                cards.push(firstCard);
+            } else {
+                const lastCard = cards.pop();
+                cards.unshift(lastCard);
+            }
+            
+            renderCards();
+        }
+
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
